@@ -1,0 +1,120 @@
+# ===================================================================
+# 🔬 RuneAnalyzer - Advanced Linux Executable Security & Performance Analyzer v1.0.0
+# Professional .gitignore for C development with build system organization
+# ===================================================================
+
+# Build directories and artifacts (matches our Makefile structure)
+build/
+bin/
+*.o
+*.d
+*.a
+*.so
+*.exe
+
+# Executable names (main and variants)
+runeanalyzer
+runeanalyzer_debug
+runeanalyzer_profile
+src/runeanalyzer
+
+# Profiling and coverage files
+*.gcno
+*.gcda
+*.gcov
+gmon.out
+callgrind.out.*
+cachegrind.out.*
+massif.out.*
+
+# Debug and crash files
+core
+core.*
+vgcore.*
+*.dSYM/
+*.pdb
+valgrind-*.log
+
+# Static analysis results
+cppcheck-results/
+scan-build-*/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.orig
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Test artifacts
+test-results/
+test-output/
+*.log
+
+# Coverage and profiling reports
+coverage/
+htmlcov/
+profile/
+*.prof
+
+# Autotools and build system files
+autom4te.cache/
+config.log
+config.status
+configure.bak
+Makefile.bak
+
+# Package and archive files
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.zip
+*.deb
+*.rpm
+*.pkg
+*.dmg
+
+# Documentation build files
+docs/_build/
+docs/build/
+man/runeanalyzer.1.gz
+
+# Installation staging
+staging/
+
+# ctags and etags
+tags
+TAGS
+
+# ===================================================================
+# RuneAnalyzer specific ignores
+# ===================================================================
+
+# Performance benchmark data
+benchmark-results/
+perf-data/
+
+# Test data files
+sample-files/
+test-data/
+
+# ===================================================================
