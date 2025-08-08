@@ -13,10 +13,10 @@ TARGET := rune_analyze
 VERSION := 1.0.0
 
 # Source files (exclude legacy files)
-SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c src/rune_master.c  src/rune_analysis_safe.c
+SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c src/rune_master.c src/rune_analysis_safe.c src/rune_pinpoint_analyzer.c
 
 # Compiler flags for different build types
-CFLAGS_BASE := -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -std=c99 -DRUNE_ANALYZE_VERSION='"$(VERSION)"'
+CFLAGS_BASE := -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-sign-compare -Wno-nonnull-compare -D_GNU_SOURCE -DRUNE_ANALYZE_VERSION='"$(VERSION)"'
 CFLAGS_DEBUG := $(CFLAGS_BASE) -g -O0 -DDEBUG -fsanitize=address -fno-omit-frame-pointer
 CFLAGS_RELEASE := $(CFLAGS_BASE) -O2 -DNDEBUG -march=native
 
@@ -56,7 +56,7 @@ COLOR_CYAN := \033[36m
 # 🎯 MAIN TARGETS
 # ===================================================================
 
-.PHONY: all clean help install uninstall test debug release
+.PHONY: all clean distclean help install uninstall test debug release
 .DEFAULT_GOAL := all
 
 # Default build target - simplified direct compilation
@@ -83,13 +83,31 @@ clean:
 	@rm -f core core.*
 	@find . -name "*~" -delete 2>/dev/null || true
 	@find . -name "*.bak" -delete 2>/dev/null || true
-@find . -name "*.backup" -delete 2>/dev/null || true
-@find . -name "*.orig" -delete 2>/dev/null || true
-@rm -f src/pinpoint_demo 2>/dev/null || true
-@rm -f src/rune_test_framework 2>/dev/null || true
-@rm -f pinpoint_demo 2>/dev/null || true
-@rm -f rune_test_framework 2>/dev/null || true
+	@find . -name "*.backup" -delete 2>/dev/null || true
+	@find . -name "*.orig" -delete 2>/dev/null || true
+	@rm -f src/pinpoint_demo 2>/dev/null || true
+	@rm -f src/rune_test_framework 2>/dev/null || true
+	@rm -f pinpoint_demo 2>/dev/null || true
+	@rm -f rune_test_framework 2>/dev/null || true
+	@printf "$(COLOR_CYAN)🧹 Cleaning analysis output files...$(COLOR_RESET)\n"
+	@rm -f analysis_output.txt output.txt pack_analysis.txt full_analysis.txt 2>/dev/null || true
+	@rm -f build_errors.txt build_log.txt 2>/dev/null || true
+	@rm -f *.o 2>/dev/null || true
+	@rm -f test_*.o framework.o main.o 2>/dev/null || true
 	@printf "$(COLOR_GREEN)✅ Enhanced clean completed$(COLOR_RESET)\n"
+
+# Deep clean - remove all generated files and temporary data
+distclean: clean
+	@printf "$(COLOR_YELLOW)🧽 Deep cleaning all generated files...$(COLOR_RESET)\n"
+	@printf "$(COLOR_CYAN)   Removing analysis output files...$(COLOR_RESET)\n"
+	@rm -f *.json *.log *.tmp 2>/dev/null || true
+	@rm -f src/*.demo src/*.test 2>/dev/null || true
+	@printf "$(COLOR_CYAN)   Preserving enterprise documentation...$(COLOR_RESET)\n"
+	@printf "$(COLOR_GREEN)   ✅ ENTERPRISE_README.md$(COLOR_RESET)\n"
+	@printf "$(COLOR_GREEN)   ✅ TECHNICAL_ARCHITECTURE.md$(COLOR_RESET)\n"
+	@printf "$(COLOR_GREEN)   ✅ RESEARCH_APPLICATIONS.md$(COLOR_RESET)\n"
+	@printf "$(COLOR_GREEN)   ✅ QUICK_REFERENCE.md$(COLOR_RESET)\n"
+	@printf "$(COLOR_GREEN)✅ Deep clean completed - Documentation preserved$(COLOR_RESET)\n"
 
 # ===================================================================
 # 🔧 BUILD VARIANTS
@@ -149,6 +167,7 @@ help:
 	@printf "  $(COLOR_GREEN)debug$(COLOR_RESET)       Build debug version with sanitizers\n"
 	@printf "  $(COLOR_GREEN)release$(COLOR_RESET)     Build optimized release version\n"
 	@printf "  $(COLOR_GREEN)clean$(COLOR_RESET)       Remove build artifacts\n"
+	@printf "  $(COLOR_GREEN)distclean$(COLOR_RESET)   Deep clean all generated files\n"
 	@printf "  $(COLOR_GREEN)install$(COLOR_RESET)     Install to $(PREFIX)/bin\n"
 	@printf "  $(COLOR_GREEN)uninstall$(COLOR_RESET)   Remove from system\n"
 	@printf "  $(COLOR_GREEN)test$(COLOR_RESET)        Run quick functionality tests\n"

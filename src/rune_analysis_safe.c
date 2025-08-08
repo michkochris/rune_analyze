@@ -15,6 +15,9 @@
 #include <string.h>     // For string functions
 #include <strings.h>    // For strncasecmp on some systems
 
+// Forward declaration
+static char* safe_strcasestr(const char* haystack, const char* needle);
+
 // 🛡️ Safe package analysis without execution
 int rune_safe_analyze_package(const char* package_path) {
     RUNE_LOG_FUNC_START("safe_analyze_package");
@@ -69,8 +72,8 @@ int rune_safe_analyze_package(const char* package_path) {
         "keylog", "rootkit", "botnet", "ransomware", "cryptojack"
     };
     
-    for (int i = 0; i < sizeof(dangerous_patterns) / sizeof(dangerous_patterns[0]); i++) {
-        if (strcasestr(filename, dangerous_patterns[i])) {
+    for (size_t i = 0; i < sizeof(dangerous_patterns) / sizeof(dangerous_patterns[0]); i++) {
+        if (safe_strcasestr(filename, dangerous_patterns[i])) {
             printf("🚨 CRITICAL: Filename contains '%s'\n", dangerous_patterns[i]);
             risk_score += 5;
         }
@@ -82,8 +85,8 @@ int rune_safe_analyze_package(const char* package_path) {
         "network", "proxy", "tunnel", "bypass"
     };
     
-    for (int i = 0; i < sizeof(suspicious_patterns) / sizeof(suspicious_patterns[0]); i++) {
-        if (strcasestr(filename, suspicious_patterns[i])) {
+    for (size_t i = 0; i < sizeof(suspicious_patterns) / sizeof(suspicious_patterns[0]); i++) {
+        if (safe_strcasestr(filename, suspicious_patterns[i])) {
             printf("⚠️  SUSPICIOUS: Filename contains '%s'\n", suspicious_patterns[i]);
             risk_score += 1;
         }
@@ -284,9 +287,9 @@ int rune_safe_detect_specific_threats(const char* package_path) {
     return threats_found;
 }
 
-// Add strcasestr implementation for case-insensitive string search
-char* strcasestr(const char* haystack, const char* needle) {
-    if (haystack == NULL || needle == NULL) return NULL;
+// Case-insensitive string search implementation
+static char* safe_strcasestr(const char* haystack, const char* needle) {
+    if (!haystack || !needle) return NULL;
     
     size_t needle_len = strlen(needle);
     if (needle_len == 0) return (char*)haystack;

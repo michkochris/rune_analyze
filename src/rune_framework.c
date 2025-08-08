@@ -244,27 +244,33 @@ int rune_execute_enhanced_verbose_analysis(void) {
     
     printf("\n");
     printf("🔍 ENHANCED VERBOSE ANALYSIS MODE ACTIVATED\n");
-    printf("" "="*60 "\n");
+    printf("============================================================\n");
     printf("📋 Analyzing: %s\n", rune_get_target_executable());
     printf("🎯 Mode: Detailed function-level analysis\n");
     printf("💡 Output: Function names, line numbers, file names\n");
     printf("\n");
     
-    // First perform standard analysis
-    int standard_result = rune_execute_analysis();
-    
-    // Then perform detailed analysis if target is analyzable
     const char* target = rune_get_target_executable();
-    if (target && strlen(target) > 0) {
-        printf("\n");
-        printf("" "="*60 "\n");
+    int standard_result = 0;
+    
+    // Check if target is source code - if so, skip execution and go to analysis
+    if (target && (strstr(target, ".c") || strstr(target, ".h") || strstr(target, "runepkg"))) {
+        printf("🔬 SOURCE CODE DETECTED - Skipping execution, going to direct analysis\n");
+        printf("============================================================\n");
         printf("🔬 DETAILED SOURCE CODE ANALYSIS\n");
-        printf("" "="*60 "\n");
+        printf("============================================================\n");
+        rune_detailed_analyze(target, 1); // 1 = verbose mode
+    } else {
+        // For executables/packages, perform standard analysis first
+        standard_result = rune_execute_analysis();
         
-        // Check if target is a runepkg directory or source code
-        if (strstr(target, "runepkg") || strstr(target, ".c")) {
-            rune_detailed_analyze(target, 1); // 1 = verbose mode
-        } else {
+        // Then perform detailed analysis if target is analyzable
+        if (target && strlen(target) > 0) {
+            printf("\n");
+            printf("============================================================\n");
+            printf("🔬 DETAILED SOURCE CODE ANALYSIS\n");
+            printf("============================================================\n");
+            
             // For .deb files, analyze the runepkg source that would handle it
             printf("📦 Analyzing package handler source code...\n");
             rune_detailed_analyze("../runepkg", 1);

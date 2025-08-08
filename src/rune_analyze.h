@@ -13,7 +13,6 @@
 #ifndef RUNE_ANALYZE_H
 #define RUNE_ANALYZE_H
 
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,6 +55,7 @@ typedef struct rune_checkpoint rune_checkpoint_t;
 // Main framework functions
 int rune_initialize(int argc, char **argv);
 int rune_execute_analysis(void);
+int rune_execute_enhanced_verbose_analysis(void);
 void rune_cleanup(void);
 void rune_print_usage(const char* program_name);
 

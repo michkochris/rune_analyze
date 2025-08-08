@@ -27,7 +27,14 @@ int main(int argc, char **argv) {
     
     // Execute the analysis
     RUNE_LOG_FUNC_START("analysis_execution");
-    result = rune_execute_analysis();
+    
+    // Use enhanced verbose analysis for verbose mode, standard analysis otherwise
+    if (rune_is_verbose_mode()) {
+        result = rune_execute_enhanced_verbose_analysis();
+    } else {
+        result = rune_execute_analysis();
+    }
+    
     RUNE_LOG_FUNC_END("analysis_execution");
     
     // Cleanup and exit
