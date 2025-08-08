@@ -13,7 +13,7 @@ TARGET := rune_analyze
 VERSION := 1.0.0
 
 # Source files (exclude legacy files)
-SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c src/rune_master.c src/rune_analysis_safe.c
+SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c src/rune_master.c  src/rune_analysis_safe.c
 
 # Compiler flags for different build types
 CFLAGS_BASE := -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -std=c99 -DRUNE_ANALYZE_VERSION='"$(VERSION)"'
@@ -83,7 +83,13 @@ clean:
 	@rm -f core core.*
 	@find . -name "*~" -delete 2>/dev/null || true
 	@find . -name "*.bak" -delete 2>/dev/null || true
-	@printf "$(COLOR_GREEN)✅ Clean completed$(COLOR_RESET)\n"
+@find . -name "*.backup" -delete 2>/dev/null || true
+@find . -name "*.orig" -delete 2>/dev/null || true
+@rm -f src/pinpoint_demo 2>/dev/null || true
+@rm -f src/rune_test_framework 2>/dev/null || true
+@rm -f pinpoint_demo 2>/dev/null || true
+@rm -f rune_test_framework 2>/dev/null || true
+	@printf "$(COLOR_GREEN)✅ Enhanced clean completed$(COLOR_RESET)\n"
 
 # ===================================================================
 # 🔧 BUILD VARIANTS

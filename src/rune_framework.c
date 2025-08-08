@@ -9,6 +9,7 @@
  */
 
 #include "rune_analyze.h"
+#include "rune_pinpoint_analyzer.h"
 #include "rune_master.h"  // 🌟 Master orchestration functions
 
 // Global configuration and results (accessible to all modules)
@@ -228,4 +229,119 @@ void rune_print_usage(const char* program_name) {
     printf("  • Safe mode provides comprehensive analysis without risks\n\n");
     
     printf("Framework Foundation: Ready for expert developer enhancement\n");
+}
+
+/*
+ * ENHANCED VERBOSE ANALYSIS INTEGRATION
+ * Provides detailed function-level analysis when -v flag is used
+ */
+#include "rune_detailed_analysis.h"
+
+int rune_execute_enhanced_verbose_analysis(void) {
+    if (!rune_is_verbose_mode()) {
+        return rune_execute_analysis(); // Fall back to normal analysis
+    }
+    
+    printf("\n");
+    printf("🔍 ENHANCED VERBOSE ANALYSIS MODE ACTIVATED\n");
+    printf("" "="*60 "\n");
+    printf("📋 Analyzing: %s\n", rune_get_target_executable());
+    printf("🎯 Mode: Detailed function-level analysis\n");
+    printf("💡 Output: Function names, line numbers, file names\n");
+    printf("\n");
+    
+    // First perform standard analysis
+    int standard_result = rune_execute_analysis();
+    
+    // Then perform detailed analysis if target is analyzable
+    const char* target = rune_get_target_executable();
+    if (target && strlen(target) > 0) {
+        printf("\n");
+        printf("" "="*60 "\n");
+        printf("🔬 DETAILED SOURCE CODE ANALYSIS\n");
+        printf("" "="*60 "\n");
+        
+        // Check if target is a runepkg directory or source code
+        if (strstr(target, "runepkg") || strstr(target, ".c")) {
+            rune_detailed_analyze(target, 1); // 1 = verbose mode
+        } else {
+            // For .deb files, analyze the runepkg source that would handle it
+            printf("📦 Analyzing package handler source code...\n");
+            rune_detailed_analyze("../runepkg", 1);
+        }
+    }
+    
+    return standard_result;
+}
+
+/**
+ * DETAILED ANALYSIS WITH PINPOINT PRECISION
+ * Called when analyzing runepkg source code - provides surgical detail
+ */
+int rune_detailed_analyze(const char* target_path, int verbose) {
+    printf("\n🎯 DETAILED ANALYSIS MODE ACTIVATED\n");
+    printf("===================================\n");
+    printf("Target: %s\n", target_path);
+    printf("Verbose: %s\n", verbose ? "ON (-v)" : "OFF");
+    
+    if (verbose && g_config.verbose_mode) {
+        printf("\n🔬 SURGICAL PINPOINT ANALYSIS\n");
+        printf("=============================\n");
+        
+        // Find all C source files in the target directory
+        char find_command[1024];
+        snprintf(find_command, sizeof(find_command), 
+                "find %s -name '*.c' -type f 2>/dev/null", target_path);
+        
+        FILE* pipe = popen(find_command, "r");
+        if (pipe) {
+            char filepath[512];
+            int total_findings = 0;
+            int files_analyzed = 0;
+            
+            while (fgets(filepath, sizeof(filepath), pipe)) {
+                // Remove trailing newline
+                filepath[strcspn(filepath, "\n")] = 0;
+                
+                printf("\n📁 ANALYZING: %s\n", filepath);
+                printf("🔍 Scanning for intentional flaws and malformations...\n");
+                
+                int findings = rune_pinpoint_analyze(filepath, verbose);
+                if (findings > 0) {
+                    total_findings += findings;
+                    printf("⚠️  Found %d issues in %s\n", findings, filepath);
+                } else {
+                    printf("✅ No issues found in %s\n", filepath);
+                }
+                files_analyzed++;
+                
+                printf("\n================================================\n");
+            }
+            pclose(pipe);
+            
+            printf("\n📊 ANALYSIS SUMMARY\n");
+            printf("==================\n");
+            printf("Files analyzed: %d\n", files_analyzed);
+            printf("Total findings: %d\n", total_findings);
+            
+            if (total_findings > 0) {
+                printf("\n🎯 ACTIONABLE INTELLIGENCE:\n");
+                printf("Each finding above shows:\n");
+                printf("  📁 Exact file path\n");
+                printf("  🎯 Specific function name\n"); 
+                printf("  📍 Precise line number\n");
+                printf("  📝 Issue description\n");
+                printf("  💡 Recommended fix (with -v)\n");
+            }
+            
+            return total_findings;
+        } else {
+            printf("❌ Error: Cannot scan directory %s\n", target_path);
+            return -1;
+        }
+    } else {
+        printf("💡 Use -v flag for detailed pinpoint analysis\n");
+        printf("   Example: ./rune_analyze runepkg somepkg.deb -v\n");
+        return 0;
+    }
 }

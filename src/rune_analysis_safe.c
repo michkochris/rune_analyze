@@ -286,7 +286,7 @@ int rune_safe_detect_specific_threats(const char* package_path) {
 
 // Add strcasestr implementation for case-insensitive string search
 char* strcasestr(const char* haystack, const char* needle) {
-    if (!haystack || !needle) return NULL;
+    if (haystack == NULL || needle == NULL) return NULL;
     
     size_t needle_len = strlen(needle);
     if (needle_len == 0) return (char*)haystack;
