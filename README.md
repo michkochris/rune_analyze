@@ -1,36 +1,38 @@
-# 🔬 RuneAnalyzer - Advanced Linux Executable Security & Performance Analyzer v1.0.0
+# 🔬 rune_analyze - Universal Linux Executable Analysis Framework v1.0.0
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://github.com/yourusername/runeanalyzer/workflows/CI/badge.svg)](https://github.com/yourusername/runeanalyzer/actions)
+[![Build Status](https://github.com/yourusername/rune_analyze/workflows/CI/badge.svg)](https://github.com/yourusername/rune_analyze/actions)
+[![Framework](https://img.shields.io/badge/Type-Analysis%20Framework-brightgreen.svg)](#)
+[![AI-Assisted](https://img.shields.io/badge/Development-AI%20Assisted-blue.svg)](#)
 
 **Created by Christopher Michko | Co-developed with GitHub Copilot AI Assistant**
 
-**Part of the rune* toolkit (runepkg, runarlinux, runeanalyzer)**
+**Part of the rune* toolkit (runepkg, runarlinux, rune_analyze)**
 
-**Advanced vulnerability detection, intelligent runtime analysis, security assessment, network behavior monitoring, and comprehensive profiling for ANY Linux executable.**
+**Universal executable analysis framework designed for extensibility, providing comprehensive vulnerability detection, intelligent runtime analysis, security assessment, network behavior monitoring, and performance profiling for ANY Linux executable.**
 
-## 🌟 What is RuneAnalyzer?
+## 🌟 What is rune_analyze?
 
-RuneAnalyzer is a revolutionary advanced security and performance analyzer that provides comprehensive vulnerability detection and intelligent insights into the behavior of any Linux executable. With sophisticated **Deep Analysis (-vv)** mode, it automatically detects malformed functions, analyzes security patterns, performs pinpoint vulnerability analysis, monitors network behavior, and delivers comprehensive intelligence that adapts to any executable.
+rune_analyze is a revolutionary universal analysis framework that provides comprehensive vulnerability detection and intelligent insights into the behavior of any Linux executable. With sophisticated **Deep Analysis (-vv)** mode, it automatically detects malformed functions, analyzes security patterns, performs pinpoint vulnerability detection, monitors network behavior, and delivers comprehensive intelligence that adapts to any executable.
 
-**Advanced executable forensics with surgical precision vulnerability detection.**
+**Framework-first design: Built for expert developers to extend and customize.**
 
 ## ⚡ Quick Start
 
 ### Basic Analysis
 ```bash
 # Analyze any Linux tool
-./runeanalyzer /bin/ls --help                    # File utilities
-./runeanalyzer /usr/bin/gcc --version           # Development tools  
-./runeanalyzer /usr/bin/grep "pattern" file.txt # Text processing
+./rune_analyze /bin/ls --help                    # File utilities
+./rune_analyze /usr/bin/gcc --version           # Development tools  
+./rune_analyze /usr/bin/grep "pattern" file.txt # Text processing
 ```
 
 ### 🧬 Deep Analysis Mode (-vv)
 ```bash
 # Get comprehensive tool intelligence
-./runeanalyzer -vv /usr/bin/sort numbers.txt    # Deep data processor analysis
-./runeanalyzer -vv /usr/bin/find /tmp -name "*.log"  # Advanced file utility insights
-./runeanalyzer -vv --json /usr/bin/awk 'script' # JSON deep analysis output
+./rune_analyze -vv /usr/bin/sort numbers.txt    # Deep data processor analysis
+./rune_analyze -vv /usr/bin/find /tmp -name "*.log"  # Advanced file utility insights
+./rune_analyze -vv --json /usr/bin/awk 'script' # JSON deep analysis output
 ```
 
 ## 🚀 Features
@@ -148,19 +150,18 @@ RuneAnalyzer is a revolutionary advanced security and performance analyzer that 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/runeanalyzer.git
-cd runeanalyzer
+git clone https://github.com/yourusername/rune_analyze.git
+cd rune_analyze
 
-# Build RuneAnalyzer
+# Build rune_analyze (all source files in src/)
 make clean && make
 
 # Install (optional)
 sudo make install
 
 # Quick test
-# Test it
-./runeanalyzer --help
-./runeanalyzer -vv /usr/bin/echo "Hello RuneAnalyzer!"
+./rune_analyze --help
+./rune_analyze -vv /usr/bin/echo "Hello rune_analyze!"
 ```
 
 ## 🎯 Command Line Options
@@ -197,32 +198,32 @@ sudo make install
 ### Tool Classification Examples
 ```bash
 # Compiler Analysis
-./runeanalyzer -vv /usr/bin/gcc --version
+./rune_analyze -vv /usr/bin/gcc --version
 # → Classification: compiler, Performance: Excellent
 
 # Text Processing Analysis  
-./runeanalyzer -vv /usr/bin/grep "error" logfile.txt
+./rune_analyze -vv /usr/bin/grep "error" logfile.txt
 # → Classification: text_processor, Behavior: fast_execution
 
 # Data Processing Analysis
-./runeanalyzer -vv /usr/bin/sort numbers.txt
+./rune_analyze -vv /usr/bin/sort numbers.txt
 # → Classification: data_processor, Efficiency: 10/10
 
 # File Utility Analysis
-./runeanalyzer -vv /usr/bin/find /tmp -name "*.log"
+./rune_analyze -vv /usr/bin/find /tmp -name "*.log"
 # → Classification: file_utility, Complexity: 2/10
 ```
 
 ### Advanced Deep Analysis
 ```bash
 # JSON output for automation
-./runeanalyzer -vv --json /usr/bin/awk 'BEGIN{print "test"}' | jq '.deep_analysis'
+./rune_analyze -vv --json /usr/bin/awk 'BEGIN{print "test"}' | jq '.deep_analysis'
 
 # Both human and JSON output
-./runeanalyzer -vv --both /usr/bin/head -v /etc/passwd
+./rune_analyze -vv --both /usr/bin/head -v /etc/passwd
 
 # Structured output detection
-./runeanalyzer -vv /usr/bin/head -v /etc/passwd
+./rune_analyze -vv /usr/bin/head -v /etc/passwd
 # → Detects "==> /etc/passwd <==" verbose pattern
 ```
 
@@ -273,9 +274,9 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 This project is licensed under the GPL v3 License - see the [LICENSE](LICENSE) file for details.
 
-## 🌟 Why RuneAnalyzer?
+## 🌟 Why rune_analyze?
 
-RuneAnalyzer fills a unique gap in the Linux ecosystem. While tools like `strace`, `valgrind`, and `perf` provide specific types of analysis, RuneAnalyzer combines intelligent insights across multiple dimensions with **universal compatibility** and **deep learning capabilities**.
+rune_analyze fills a unique gap in the Linux ecosystem. While tools like `strace`, `valgrind`, and `perf` provide specific types of analysis, rune_analyze combines intelligent insights across multiple dimensions with **universal compatibility** and **deep learning capabilities**.
 
 ### **Revolutionary Deep Analysis**
 - **First Universal Tool Classifier** - Automatically identifies any Linux executable's purpose
@@ -291,7 +292,7 @@ RuneAnalyzer fills a unique gap in the Linux ecosystem. While tools like `strace
 
 **It's like having an AI-powered Swiss Army knife for Linux tool analysis!**
 
-## 🏆 What Makes RuneAnalyzer Special?
+## 🏆 What Makes rune_analyze Special?
 
 ### **🧬 Deep Analysis Engine**
 The world's first universal tool intelligence system that automatically:
@@ -301,7 +302,7 @@ The world's first universal tool intelligence system that automatically:
 - **Breaks down** performance timing into startup, processing, and cleanup phases
 
 ### **🎯 Adaptive Intelligence**  
-RuneAnalyzer adapts its analysis based on detected tool type:
+rune_analyze adapts its analysis based on detected tool type:
 - **Compilers** get startup-optimized timing analysis (5% startup, 90% processing)
 - **Interpreters** get startup-heavy analysis (30% startup, 60% processing)  
 - **Data processors** get efficiency-focused scoring
@@ -314,7 +315,7 @@ Advanced output analysis that detects:
 - Structured output formatting
 - Interactive features and prompts
 
-## � Latest Features (v1.0.0)
+## 🔬 Latest Features (v1.0.0)
 
 ### **🧬 Deep Analysis Mode (-vv)**
 - **Intelligent Tool Classification** - 8 tool categories with automatic detection
@@ -339,7 +340,7 @@ Advanced output analysis that detects:
 **AI Development Partner:** GitHub Copilot (Advanced AI Assistant)
 
 ### 🌟 Development Story
-RuneAnalyzer was born from an innovative discovery during package manager development. 
+rune_analyze was born from an innovative discovery during package manager development. 
 What started as a specialized testing framework evolved into the world's first 
 **universal Linux tool intelligence system** with deep learning capabilities.
 
@@ -361,7 +362,7 @@ traditional performance metrics with intelligent behavioral analysis.
 - **GitHub Copilot Team** - For revolutionary AI development assistance  
 - **Linux Community** - For inspiration and open-source foundations
 - **Beta Testers** - Early adopters who validated the universal deep analysis approach
-- **Performance Engineers** - Who tested RuneAnalyzer on intensive GNU utilities operations
+- **Performance Engineers** - Who tested rune_analyze on intensive GNU utilities operations
 
 ---
 
