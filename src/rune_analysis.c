@@ -43,40 +43,83 @@ int rune_validate_executable(const char* path) {
 int rune_execute_target(void) {
     RUNE_LOG_FUNC_START("execute_target");
     
-    // TODO: Extract the actual execution logic from the monolithic file
-    // This is where the fork/exec and monitoring would happen
-    
     rune_log_checkpoint("EXEC: target_started", RUNE_CHECKPOINT_SYSCALL, "Target process launched");
     
-    // Placeholder - just run the command for now
-    // The actual implementation would fork, monitor, and collect metrics
+    // 🛡️ EXECUTION CONTROL CHECK
+    if (g_config.dry_run_mode) {
+        printf("🛡️ DRY RUN MODE: Simulating execution of %s\n", rune_get_target_executable());
+        printf("   • Would fork child process\n");
+        printf("   • Would execute command with monitoring\n");
+        printf("   • Would collect performance metrics\n");
+        printf("   • No actual execution performed\n");
+        
+        // Simulate timing for realistic dry run
+        g_results.execution_time = 0.123;
+        g_results.exit_code = 0;
+        g_results.child_pid = -1;
+        
+        rune_log_info("🛡️ Dry run simulation completed\n");
+        return 0;
+    }
     
     rune_log_info("Executing target: %s\n", rune_get_target_executable());
     
-    // Simulate execution (this would be replaced with actual monitoring)
-    pid_t pid = fork();
-    if (pid == 0) {
-        // Child process - execute target
-        execv(rune_get_target_executable(), rune_get_target_args());
-        exit(1); // If execv returns, it failed
-    } else if (pid > 0) {
-        // Parent process - monitor child
-        int status;
+    // Check if we're in classic monitoring mode
+    if (g_config.enable_monitoring) {
+        // Classic Unix way: execute the command with shell
+        rune_log_info("🔍 Classic monitoring mode: %s\n", rune_get_target_executable());
+        
         struct timeval start, end;
         gettimeofday(&start, NULL);
         
-        waitpid(pid, &status, 0);
-        
-        gettimeofday(&end, NULL);
-        g_results.execution_time = (end.tv_sec - start.tv_sec) + 
-                                  (end.tv_usec - start.tv_usec) / 1000000.0;
-        g_results.exit_code = WEXITSTATUS(status);
-        g_results.child_pid = pid;
-        
-        rune_log_checkpoint("EXEC: target_completed", RUNE_CHECKPOINT_SYSCALL, "Target process finished");
+        // Simple fork/exec - the classic Unix way
+        pid_t pid = fork();
+        if (pid == 0) {
+            // Child: use system() for simplicity (classic approach)
+            exit(system(rune_get_target_executable()));
+        } else if (pid > 0) {
+            // Parent: wait and collect basic metrics
+            int status;
+            waitpid(pid, &status, 0);
+            
+            gettimeofday(&end, NULL);
+            g_results.execution_time = (end.tv_sec - start.tv_sec) + 
+                                      (end.tv_usec - start.tv_usec) / 1000000.0;
+            g_results.exit_code = WEXITSTATUS(status);
+            g_results.child_pid = pid;
+            
+            rune_log_info("✅ Classic monitoring complete: %.6f seconds, exit code %d\n", 
+                         g_results.execution_time, g_results.exit_code);
+        } else {
+            rune_log_error("Fork failed: %s\n", strerror(errno));
+            return -1;
+        }
     } else {
-        rune_log_error("Fork failed: %s\n", strerror(errno));
-        return -1;
+        // Direct execution mode (original behavior)
+        pid_t pid = fork();
+        if (pid == 0) {
+            // Child process - execute target
+            execv(rune_get_target_executable(), rune_get_target_args());
+            exit(1); // If execv returns, it failed
+        } else if (pid > 0) {
+            // Parent process - monitor child
+            int status;
+            struct timeval start, end;
+            gettimeofday(&start, NULL);
+            
+            waitpid(pid, &status, 0);
+            
+            gettimeofday(&end, NULL);
+            g_results.execution_time = (end.tv_sec - start.tv_sec) + 
+                                      (end.tv_usec - start.tv_usec) / 1000000.0;
+            g_results.exit_code = WEXITSTATUS(status);
+            g_results.child_pid = pid;
+        
+            rune_log_checkpoint("EXEC: target_completed", RUNE_CHECKPOINT_SYSCALL, "Target process finished");
+        } else {
+            rune_log_error("Fork failed: %s\n", strerror(errno));
+            return -1;
+        }
     }
     
     RUNE_LOG_FUNC_END("execute_target");

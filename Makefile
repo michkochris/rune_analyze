@@ -13,10 +13,10 @@ TARGET := rune_analyze
 VERSION := 1.0.0
 
 # Source files (exclude legacy files)
-SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c
+SOURCES := src/main.c src/rune_framework.c src/rune_config.c src/rune_logging.c src/rune_checkpoint.c src/rune_analysis.c src/rune_output.c src/rune_master.c src/rune_analysis_safe.c
 
 # Compiler flags for different build types
-CFLAGS_BASE := -Wall -Wextra -Wno-unused-parameter -std=c99 -DRUNE_ANALYZE_VERSION='"$(VERSION)"'
+CFLAGS_BASE := -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -std=c99 -DRUNE_ANALYZE_VERSION='"$(VERSION)"'
 CFLAGS_DEBUG := $(CFLAGS_BASE) -g -O0 -DDEBUG -fsanitize=address -fno-omit-frame-pointer
 CFLAGS_RELEASE := $(CFLAGS_BASE) -O2 -DNDEBUG -march=native
 

@@ -133,6 +133,22 @@ typedef struct rune_config {
     int enable_performance;     // Enable performance profiling
     int enable_deep_analysis;   // Enable deep analysis (auto-enabled in -vv mode)
     int enable_network_analysis; // Enable network behavior analysis
+    int enable_monitoring;      // Enable process monitoring mode (classic Unix way)
+    
+    // 🛡️ EXPLICIT EXECUTION CONTROL
+    int force_execution;        // -f flag: explicit permission to execute
+    int dry_run_mode;          // --dry-run: simulate without execution
+    int safe_mode;             // Default: safe analysis without execution
+    
+    // 🌟 Master Orchestration Modes (THE VISION!)
+    int master_deep_install;    // Master-controlled secure installation
+    int master_security_scan;   // Pre-installation security analysis  
+    int master_smart_monitor;   // Intelligent command monitoring
+    int master_threat_analyze;  // Comprehensive threat assessment
+    int master_safe_analyze;    // 🛡️ Safe static analysis (new)
+    int master_safe_threats;    // 🔍 Safe threat detection (new)
+    char master_target_package[PATH_MAX];  // Package for master operations
+    
     char target_executable[PATH_MAX];
     char **target_args;
     int target_argc;

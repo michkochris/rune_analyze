@@ -27,6 +27,13 @@ int rune_get_target_argc(void);
 int rune_is_verbose_mode(void);
 int rune_is_deep_analysis_enabled(void);
 int rune_get_output_format(void);
+int rune_is_json_output_enabled(void);          // ✨ NEW: JSON output check
+int rune_is_both_output_enabled(void);          // ✨ NEW: Both output modes check
+
+// JSON output functions  
+void rune_output_json_analysis_start(const char* target_executable);
+void rune_output_json_analysis_result(const rune_results_t* results, double execution_time);
+void rune_output_json_error_report(const char* operation, const char* error_message, int error_code);
 
 // Safe string operations - Defensive C Programming
 #define RUNE_SAFE_STRNCPY(dest, src, size) do { \
